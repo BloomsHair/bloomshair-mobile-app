@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // export const LOGIN = 'LOGIN';
 export const AUTHENTICATE = 'AUTHENTICATE';
 export const LOGOUT = 'LOGOUT';
+export const SET_IS_AL = 'SET_IS_AL'
 
 let timer;
 
@@ -20,6 +21,10 @@ const storeData = async (token, userId, expirationDate) => {
     throw e;
   }
 };
+
+export const setIsAl = () => {
+  return { type: SET_IS_AL }
+}
 
 
 export const authenticate = (userId, token, expiryTime) => async  (dispatch) => {

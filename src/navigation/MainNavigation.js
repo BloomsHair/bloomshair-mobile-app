@@ -20,18 +20,13 @@ import Colors from '../constants/Colors';
 const MainNav = createStackNavigator();
 
 const MainNavigator = () => {
-  const userToken = useSelector((state) => !!state.user.token);
+  const isAuth = useSelector((state) => !!state.user.token);
+  const isAL = useSelector((state) => state.user.isAutoLoggedIn);
   return (
     <NavigationContainer>
-      <MainNav.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}>
-        <MainNav.Screen name='Auth' component={AuthNavigator} />
-        <MainNav.Screen name='Startup' component={StartupScreen} />
-
-        <MainNav.Screen name='Shop' component={ShopNavigator} />
-      </MainNav.Navigator>
+          {isAuth && <ShopNavigator />}
+          {!isAuth && !isAL && <AuthNavigator />}
+          {!isAuth && isAL && <StartupScreen />}
     </NavigationContainer>
   );
 };

@@ -81,8 +81,8 @@ const AuthScreen = ({ navigation }) => {
   
     try {
         await dispatch(action);
-        setIsLoading(false);
-      navigation.navigate('Shop');
+    
+      // navigation.navigate('Shop');
     } catch (error) {
       setError(error.message);
       setIsLoading(false);

@@ -1,8 +1,9 @@
-import { AUTHENTICATE, LOGOUT } from '../actions/authAction';
+import { AUTHENTICATE, LOGOUT, SET_IS_AL } from '../actions/authAction';
 
 const initialState = {
   token: null,
   userId: null,
+  isAuthLoggedIn: false
 };
 
 const authReducer = (state = initialState, action) => {
@@ -11,9 +12,18 @@ const authReducer = (state = initialState, action) => {
       return {
         token: action.token,
         userId: action.userId,
+        isAuthLoggedIn: true,
+      };
+    case SET_IS_AL:
+      return {
+        ...state,
+        isAuthLoggedIn: true,
       };
     case LOGOUT:
-      return initialState;
+      return {
+        ...initialState,
+        isAuthLoggedIn: true,
+      };
     // case SIGNUP:
     //   return {
     //     token: action.token,

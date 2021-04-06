@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 //constants
 import Colors from '../constants/Colors';
 
-import { authenticate } from '../redux/actions/authAction'
+import { authenticate, setIsAl } from '../redux/actions/authAction'
 
 
 const StartupScreen = ({ navigation }) => {
@@ -15,14 +15,16 @@ const StartupScreen = ({ navigation }) => {
        try {
            const userData = await AsyncStorage.getItem('userData');
            if (!userData) {
-               navigation.navigate('Auth');
+              //  navigation.navigate('Auth');
+             dispatch(setIsAl())
                return;
            }
            const transformedUserData = JSON.parse(userData)
            const { token, userId, expiryDate } = transformedUserData
            const expirationDate = new Date(expiryDate)
            if (expirationDate <= new Date() || !token || !userId) {
-               navigation.navigate('Auth');
+              //  navigation.navigate('Auth');
+             dispatch(setIsAl());
                return;
            }
 
