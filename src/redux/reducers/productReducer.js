@@ -22,6 +22,7 @@ const productReducer = (state = initialState, action) => {
       const newProduct = new Product(
         action.productData.id,
         action.productData.ownerId,
+        action.productData.pushToken,
         action.productData.title,
         action.productData.imageUrl,
         action.productData.description,
@@ -37,6 +38,7 @@ const productReducer = (state = initialState, action) => {
       const updatedProduct = new Product(
         action.pId,
         state.userProducts[productIndex].ownerId,
+        state.userProducts[productIndex].pushToken,
         action.productData.title,
         action.productData.imageUrl,
         action.productData.description,

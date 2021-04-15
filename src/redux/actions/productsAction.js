@@ -1,3 +1,5 @@
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
 import Product from '../../models/product';
 
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
@@ -23,6 +25,7 @@ export const fetchProducts = () => async (dispatch, getState) => {
         new Product(
           key,
           data[key].ownerId,
+          data[key].ownerPushToken,
           data[key].title,
           data[key].imageUrl,
           data[key].description,
@@ -54,6 +57,17 @@ export const deleteProduct = (productId) => async (dispatch, getState) => {
 export const createProduct = (title, description, imageUrl, price) => async (
   dispatch, getState
 ) => {
+  let pushToken;
+  let updatedStatusObj;
+  const statusObj = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+  if (statusObj.status !== 'granted') {
+    updatedStatusObj = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+  }
+  if (updatedStatusObj !== 'granted') {
+    pushToken = null
+  } else {
+    pushToken = (await Notifications.getExpoPushTokenAsync()).data;
+  }
   const token = getState().user.token;
   const userId = getState().user.userId;
   const response = await fetch(
@@ -68,7 +82,8 @@ export const createProduct = (title, description, imageUrl, price) => async (
         description: description,
         imageUrl: imageUrl,
         price: price,
-        ownerId: userId
+        ownerId: userId,
+        ownerPushToken: pushToken
       }),
     }
   );
@@ -86,7 +101,8 @@ export const createProduct = (title, description, imageUrl, price) => async (
       description: description,
       imageUrl: imageUrl,
       price: price,
-      ownerId: userId
+      ownerId: userId,
+      pushToken: pushToken,
     },
   });
 };

@@ -13,6 +13,7 @@ const cartReducer = (state = initialState, action) => {
       const addedProduct = action.product;
       const prodPrice = addedProduct.price;
       const prodTitle = addedProduct.title;
+      const pushToken = addedProduct.pushToken;
 
       let cartItem;
       if (state.items[addedProduct.id]) {
@@ -20,10 +21,11 @@ const cartReducer = (state = initialState, action) => {
           state.items[addedProduct.id].quantity + 1,
           prodPrice,
           prodTitle,
+          pushToken,
           state.items[addedProduct.id].sum + prodPrice
         );
       } else {
-        cartItem = new CartItem(1, prodPrice, prodTitle, prodPrice);
+        cartItem = new CartItem(1, prodPrice, prodTitle, pushToken, prodPrice);
       }
       return {
         ...state,
